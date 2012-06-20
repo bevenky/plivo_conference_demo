@@ -2,6 +2,9 @@ import os
 import traceback
 from flask import Flask, render_template, request, Response
 import plivo
+import pusher
+
+
 app = Flask(__name__)
 
 
@@ -9,6 +12,10 @@ API_URL = "https://api.plivo.com"
 
 AUTH_ID = ''
 AUTH_TOKEN = ''
+
+pusher.app_id = 'your-pusher-app-id'
+pusher.key = 'your-pusher-key'
+pusher.secret = 'your-pusher-secret'
 
 
 @app.route("/")
@@ -54,12 +61,18 @@ def conf_callback():
     action = request.args.get('ConferenceAction', None)
     member_id = request.args.get('ConferenceMemberID', None)
     print "Conf Action %s" % action
+
+    p = pusher.Pusher()
+
     if action == "enter":
         print "Member ID %s entered into conf" % member_id
+        p['realtime_conference'].trigger('conference_event', {'id': member_id, 'action': 'enter'})
     elif action == "exit":
         print "Member ID %s left the conference" % member_id
+        p['realtime_conference'].trigger('conference_event', {'id': member_id, 'action': 'exit'})
     elif action == "floor":
         print "Member ID %s is speaking now" % member_id
+        p['realtime_conference'].trigger('conference_event', {'id': member_id, 'action': 'floor'})
     else:
         try:
             digits = request.args.get('ConferenceDigitsMatch', None)
@@ -67,6 +80,11 @@ def conf_callback():
             if digits:
                 member_id = request.args.get('ConferenceMemberID', None)
                 print "Member ID %s pressed %s now" % (member_id, digits)
+                p['realtime_conference'].trigger('conference_event', {
+                                                                        'id': member_id,
+                                                                        'digit': digit,
+                                                                        'action': 'digit',
+                                                                    })
                 return "OK"
         except Exception, e:
             print str(e)

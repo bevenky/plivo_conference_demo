@@ -9,8 +9,8 @@
     WEB_SOCKET_DEBUG = true;
 
     var pusher = new Pusher('28696a2ad272ee0d4f90');
-    var channel = pusher.subscribe('test_channel');
-    channel.bind('my_event', function(data) {
+    var channel = pusher.subscribe('realtime_conference');
+    channel.bind('conference_event', function(data) {
       alert(data);
     });
   </script>
