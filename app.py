@@ -51,8 +51,8 @@ def conf_action():
 @app.route('/response/conf/callback/', methods=['GET'])
 def conf_callback():
     print "Conf Callback %s" % str(request.args.items())
-    action = str(request.args.get('ConferenceAction', None)
-    member_id = str(request.args.get('ConferenceMemberID', None)
+    action = request.args.get('ConferenceAction', None)
+    member_id = request.args.get('ConferenceMemberID', None)
     print "Conf Action %s" % action
     if action == "enter":
         print "Member ID %s entered into conf" % member_id
@@ -84,7 +84,7 @@ def conf_callback():
 @app.route('/response/conf/', methods=['GET', 'POST'])
 def conf():
     print "All Args %s" % str(request.args.items())
-    from_number = str(request.args.get('From', None)
+    from_number = request.args.get('From', None)
     print "Member with number %s entered into conf" % from_number
     try:
         print "Conf %s" % request.values.items()
