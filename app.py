@@ -93,11 +93,11 @@ def conf():
         r = plivo.Response()
         r.addSpeak("Hi, welcome to plivo realtime conference demo. You will now be placed into conference.", voice="WOMAN")
         r.addConference("demo", enterSound="beep:1",
-                waitSound="http://electric-snow-3852.herokuapp.com/response/conf/music/",
+                waitSound="http://plivoconferencedemo.herokuapp.com/response/conf/music/",
                 timeLimit=600000,
-                action="http://electric-snow-3852.herokuapp.com/response/conf/action/",
+                action="http://plivoconferencedemo.herokuapp.com/response/conf/action/",
                 digitsMatch="1,2,3,4",
-                callbackUrl="http://electric-snow-3852.herokuapp.com/response/conf/callback/",
+                callbackUrl="http://plivoconferencedemo.herokuapp.com/response/conf/callback/",
                 callbackMethod="GET")
         return render_template('response_template.xml', response=r)
     except Exception, e:
