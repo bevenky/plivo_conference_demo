@@ -51,8 +51,8 @@ def conf_action():
 @app.route('/response/conf/callback/', methods=['GET'])
 def conf_callback():
     print "Conf Callback %s" % str(request.args.items())
-    action = str(request.args['ConferenceAction'])
-    member_id = str(request.args['ConferenceMemberID'])
+    action = str(request.args.get('ConferenceAction', None)
+    member_id = str(request.args.get('ConferenceMemberID', None)
     print "Conf Action %s" % action
     if action == "enter":
         print "Member ID %s entered into conf" % member_id
@@ -65,7 +65,7 @@ def conf_callback():
             digits = request.args.get('ConferenceDigitsMatch', None)
             conf_name = request.args.get('ConferenceName', None)
             if digits:
-                member = request.args['ConferenceMemberID']
+                member = request.args.get('ConferenceMemberID', None)
                 p = plivo.RestAPI(AUTH_ID, AUTH_TOKEN, url=API_URL)
                 params = {'text':'Member %s pressed %s' % (str(member), str(digits)),
                           'voice': 'MAN',
@@ -83,7 +83,8 @@ def conf_callback():
 
 @app.route('/response/conf/', methods=['GET', 'POST'])
 def conf():
-    from_number = str(request.args['From'])
+    print "All Args %s" % str(request.args.items())
+    from_number = str(request.args.get('From', None)
     print "Member with number %s entered into conf" % from_number
     try:
         print "Conf %s" % request.values.items()
