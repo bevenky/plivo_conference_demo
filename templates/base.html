@@ -1,0 +1,52 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>App Name{% block title %}{% endblock %}</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+
+  <!-- HTML5 shim, for IE 6-8 support of HTML elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link rel="stylesheet" href="/static/css/bootstrap.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+  {% block css %}{% endblock %}
+
+</head>
+
+<body>
+
+  <header>
+    {% include "header.html" %}
+  </header>
+
+  <div id="main" role="main">
+    {% block main %}{% endblock %}
+  </div>
+
+  <footer>
+    {% include "footer.html" %}
+  </footer>
+
+  <!-- Google CDN's jQuery, with fall back to local-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="/static/js/libs/jquery.js">\x3C/script>')</script>
+
+  {% block js %}{% endblock %}
+
+
+</body>
+</html>
