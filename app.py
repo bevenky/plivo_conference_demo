@@ -65,20 +65,23 @@ def conf_callback():
             digits = request.args.get('ConferenceDigitsMatch', None)
             conf_name = request.args.get('ConferenceName', None)
             if digits:
-                member = request.args.get('ConferenceMemberID', None)
-                p = plivo.RestAPI(AUTH_ID, AUTH_TOKEN, url=API_URL)
-                params = {'text':'Member %s pressed %s' % (str(member), str(digits)),
-                          'voice': 'MAN',
-                          'conference_name': conf_name, 'member_id': 'all',
-                         }
-                r = p.speak_member(params)
-                print str("Conf callback speak response: %s" % str(r))
+                member_id = request.args.get('ConferenceMemberID', None)
+                print "Member ID %s pressed %s now" % (member_id, digits)
                 return "OK"
         except Exception, e:
             print str(e)
             for line in traceback.format_exc().splitlines():
                 print str(line)
             return "ERROR %s" % str(e)
+
+
+# p = plivo.RestAPI(AUTH_ID, AUTH_TOKEN, url=API_URL)
+#                 params = {'text':'Member %s pressed %s' % (str(member), str(digits)),
+#                           'voice': 'MAN',
+#                           'conference_name': conf_name, 'member_id': 'all',
+#                          }
+#                 r = p.speak_member(params)
+#                 print str("Conf callback speak response: %s" % str(r))
 
 
 @app.route('/response/conf/', methods=['GET', 'POST'])
